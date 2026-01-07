@@ -230,4 +230,70 @@ li{margin-bottom:6px}
   text-align: center;
 }
 
+/* ================== URGENT: CTA readability + sizing fix ================== */
+
+/* 1) Make the CTA a true inline-flex button (no full-width blob) */
+.big-button,
+.card a.big-button,
+.big-button > * {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  min-width: 140px !important;
+  padding: 12px 28px !important;
+  border-radius: 999px !important;
+  box-sizing: border-box !important;
+}
+
+/* 2) Restore high-contrast, readable label and remove blurring/opacity */
+.big-button,
+.card a.big-button {
+  background: linear-gradient(90deg, var(--gold) 0%, var(--gold-2) 100%) !important;
+  color: #111827 !important;               /* dark text for best contrast */
+  font-weight: 800 !important;
+  font-size: 1rem !important;
+  line-height: 1 !important;
+  text-decoration: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  border: 1px solid rgba(0,0,0,0.08) !important;
+  box-shadow: 0 12px 36px rgba(11,19,32,0.7), inset 0 -4px 8px rgba(0,0,0,0.06) !important;
+  z-index: 6 !important;
+}
+
+/* 3) Defensive: if any earlier rule set anchor to display:block or width:100% */
+.card a.big-button,
+.big-button {
+  display: inline-flex !important;
+  width: auto !important;
+  max-width: none !important;
+}
+
+/* 4) Hover / focus state (clear and visible) */
+.big-button:hover,
+.card a.big-button:hover,
+.big-button:focus,
+.card a.big-button:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 46px rgba(11,19,32,0.75), inset 0 -4px 8px rgba(0,0,0,0.06) !important;
+  outline: none;
+}
+
+/* 5) Ensure link color elsewhere in .card doesn't force the button label to inherit muted color */
+.card a:not(.big-button) { color: var(--gold); }
+.card a.big-button, .card a.big-button:visited { color: #111827 !important; }
+
+/* 6) Small-screen fallback: keep nice sizing */
+@media (max-width:700px) {
+  .big-button,
+  .card a.big-button {
+    width: auto !important;
+    min-width: 120px !important;
+    padding: 10px 20px !important;
+    font-size: 0.98rem !important;
+  }
+}
+
 
