@@ -1,198 +1,499 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ASCEND Convening — ASU</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <!-- Modern, restrained system fonts; safe fallback stack -->
   <style>
-    /* small additional page-specific tweaks */
-    html { scroll-behavior: smooth; } /* smooth scrolling for nav */
-    .schedule-grid { display:grid; grid-template-columns: 1fr 220px 1fr; gap:12px; align-items:start; }
-    .schedule-time { font-weight:700; text-align:right; padding-right:10px; }
-    .schedule-item{ padding-left:12px; }
-    .note { color: #555; font-size:0.95rem; margin-top:6px; }
-    .sponsor-row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:12px; }
-    .sponsor { padding:8px 12px; border-radius:6px; background:#f8fafc; border:1px solid #eef2f6; font-weight:600;}
+    /* -------------------- Base reset -------------------- */
+    :root{
+      --bg-1: #0f1724; /* deep night */
+      --bg-2: #10233a; /* cool blue */
+      --accent: #6ee7b7; /* mint accent */
+      --accent-2: #7c5cff; /* purple accent */
+      --glass: rgba(255,255,255,0.06);
+      --glass-2: rgba(255,255,255,0.04);
+      --muted: #b7c0c9;
+      --card-radius: 14px;
+      --max-w: 1080px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:#e6eef5;
+      background: radial-gradient(1000px 600px at 10% 10%, rgba(124,92,255,0.12), transparent 8%),
+                  linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      min-height:100%;
+      padding-bottom:48px;
+    }
+
+    /* ---------- container and flow ---------- */
+    .wrap{max-width:var(--max-w);margin:0 auto;padding:28px 20px;}
+    header.wrap{padding-top:18px;padding-bottom:10px}
+    section{padding:56px 0}
+
+    /* ---------- glass header ---------- */
+    .site-header{
+      position:sticky; top:0; z-index:80;
+      backdrop-filter: blur(6px) saturate(110%);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .header-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      padding:10px 0;
+    }
+
+    .brand{
+      font-weight:700;
+      color: #f8fbff;
+      letter-spacing: -0.02em;
+    }
+    .brand-subline{
+      display:block;
+      font-weight:500;
+      color:var(--muted);
+      font-size:0.95rem;
+      margin-top:4px;
+    }
+
+    /* ---------- nav ---------- */
+    nav.nav{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      font-weight:600;
+    }
+    nav.nav a{
+      color:var(--muted);
+      text-decoration:none;
+      padding:8px 12px;
+      border-radius:10px;
+      transition: all 170ms ease;
+      font-size:0.95rem;
+    }
+    nav.nav a:hover{ color: white; transform: translateY(-1px) }
+    nav.nav a.cta{
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+      color:#05201e;
+      box-shadow: 0 6px 20px rgba(124,92,255,0.16);
+      padding:9px 14px;
+    }
+
+    /* mobile hamburger */
+    .nav-toggle{
+      display:none;
+    }
+    .hamburger{
+      display:none;
+      width:38px;height:36px;border-radius:10px;
+      align-items:center;justify-content:center;
+      background:rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .hamburger .line{width:18px;height:2px;background:var(--muted);margin:3px 0;border-radius:2px}
+
+    /* ---------- hero ---------- */
+    .hero{
+      padding-top:28px;
+      padding-bottom:36px;
+    }
+    .hero-inner{
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:36px;
+      align-items:start;
+      align-content:start;
+    }
+
+    h1{
+      font-size:2.6rem;
+      margin:0 0 12px 0;
+      line-height:1.05;
+      color: #fff;
+      text-shadow: 0 6px 30px rgba(12,18,30,0.35);
+    }
+    .lead{
+      color:var(--muted);
+      font-size:1.05rem;
+      margin:0 0 18px 0;
+      max-width:70ch;
+    }
+
+    /* ---------- card / glass panel ---------- */
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.04);
+      padding:22px;
+      border-radius: var(--card-radius);
+      box-shadow: 0 10px 40px rgba(2,8,23,0.45);
+      color: #e9f3ff;
+    }
+    .card.note{
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      align-items:flex-start;
+    }
+
+    .big-button{
+      display:inline-block;
+      background: linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:#051018;
+      padding:12px 18px;
+      border-radius:12px;
+      text-decoration:none;
+      font-weight:700;
+      box-shadow:0 8px 30px rgba(16,30,60,0.35);
+    }
+
+    /* ---------- sponsor subtle ---------- */
+    .sponsor-row{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:18px;
+      color:var(--muted);
+      font-size:0.95rem;
+    }
+    .sponsor-pill{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+      padding:8px 12px;
+      border-radius:999px;
+    }
+    .sponsor-row a{ color: #c5def0; text-decoration: none; font-weight:600 }
+
+    /* ---------- schedule ---------- */
+    .schedule {
+      display:grid;
+      gap:14px;
+    }
+    .schedule-row{
+      display:grid;
+      grid-template-columns: 140px 1fr;
+      gap:18px;
+      align-items:start;
+      padding:14px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.006));
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+    .schedule-time{
+      color: var(--muted);
+      text-align:right;
+      font-weight:600;
+      padding-right:6px;
+      font-size:0.95rem;
+    }
+    .schedule-desc strong{display:block;color:#fff;font-size:1rem;margin-bottom:6px}
+
+    /* group spacing */
+    .schedule > .group-title{
+      color: var(--muted);
+      font-weight:700;
+      margin:8px 4px;
+    }
+
+    /* ---------- logistics / misc ---------- */
+    ul{margin:8px 0 0 18px;color:var(--muted)}
+    a{color:inherit}
+    .muted{color:var(--muted);font-size:0.95rem}
+
+    /* ---------- footer ---------- */
+    .site-footer{
+      margin-top:48px;
+      padding:28px 0;
+      border-top: 1px solid rgba(255,255,255,0.03);
+      color:var(--muted);
+      font-size:0.95rem;
+    }
+
+    /* ---------- responsive tweaks ---------- */
+    @media (max-width: 980px){
+      .hero-inner{grid-template-columns: 1fr}
+      nav.nav{display:none}
+      .hamburger{display:flex}
+    }
+
+    @media (max-width: 640px){
+      .wrap{padding:18px}
+      h1{font-size:1.9rem}
+      .schedule-row{grid-template-columns: 1fr; text-align:left}
+      .schedule-time{text-align:left;padding-right:0}
+      .brand{font-size:1rem}
+    }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
   <header class="site-header">
-    <div class="container header-inner">
-      <div class="brand"> The NSF MPS-ASCEND Convening
-      <span class="brand-subline">at Arizona State University</span>
+    <div class="wrap header-inner" role="banner">
+      <div>
+        <div class="brand">
+          The NSF MPS-ASCEND Convening
+          <span class="brand-subline">at Arizona State University</span>
+        </div>
       </div>
 
-      <nav class="nav">
+      <!-- nav -->
+      <nav class="nav" role="navigation" aria-label="Primary">
         <a href="#home">Home</a>
         <a href="#schedule">Schedule</a>
-        <!-- <a href="#speakers">Speakers</a> -->
         <a href="#logistics">Logistics</a>
         <a href="#register" class="cta">Register</a>
         <a href="#contact">Contact</a>
       </nav>
 
-      <input id="nav-toggle" type="checkbox" />
-      <label for="nav-toggle" class="nav-toggle-label" aria-hidden="true">
-        <span></span><span></span><span></span>
-      </label>
+      <!-- hamburger for small screens -->
+      <button class="hamburger" aria-label="Open menu" id="menu-btn">
+        <span class="line"></span><span class="line"></span><span class="line"></span>
+      </button>
     </div>
   </header>
 
   <main>
-    <!-- HOME / HERO -->
-    <section id="home" class="hero container">
-      <h1>A Convening to help Postdocs Ascend</h1>
-      <p class="lead">At ASU and on January 30th, 2026, we will host a focused gathering of postdoctoral fellows and invited mentors to write, plan, and build next steps for the future of postdoc to faculty development programs.</p>
+    <section id="home" class="wrap hero">
+      <div class="hero-inner">
+        <div>
+          <h1>A Convening to help Postdocs Ascend</h1>
+          <p class="lead">At ASU on January 30, 2026, we host a focused gathering of postdoctoral fellows and invited mentors to write, plan, and build next steps for postdoc to faculty development programs.</p>
 
-      <div class="card note">
-        <strong>Please consider joining us</strong> by registering below
-        <p><a class="big-button" href="https://docs.google.com/forms/d/1IFcLC__wZV1C8GVvmIkPsQRPAQ8gCldCKtNUmxVjqgA/edit" target="_blank" rel="noopener">Register</a></p>
-      </div>
+          <p style="margin-top:18px">
+            <a class="big-button" href="https://docs.google.com/forms/d/1IFcLC__wZV1C8GVvmIkPsQRPAQ8gCldCKtNUmxVjqgA/edit" target="_blank" rel="noopener">Register</a>
+          </p>
 
-      <div class="sponsor-row">
-      <div class="sponsor">
-      Supported by
-      <a href="https://www.hsru.org" target="_blank" rel="noopener">the Alliance of Hispanic Serving Research Universities</a>,
-      <a href="https://www.hluce.org" target="_blank" rel="noopener">the Luce Foundation</a>, and 
-      <a href="https://mcmsc.asu.edu" target="_blank" rel="noopener">the Simon A. Levin Mathematical, Computational and Modeling Sciences Center</a>
-        
-      </div>
-      </div>
-
-    </section>
-
-    <!-- SCHEDULE (updated from user screenshot) -->
-    <section id="schedule" class="container card">
-      <h2>Schedule (January 30th, 2026; most events in Engineering Center 221A)</h2>
-
-      <div class="schedule-grid">
-        <div class="schedule-item"><strong>Check in and Breakfast</strong></div>
-        <div class="schedule-time">8:30 — 9:00 am</div>
-        <div class="schedule-item">Sign-in, name tags, light breakfast (coffee available).</div>
-
-        <div class="schedule-item"><strong>Intro / Welcome</strong></div>
-        <div class="schedule-time">9:00 am</div>
-        <div class="schedule-item">Opening remarks and goals for the day.</div>
-
-        <div class="schedule-item"><strong>Keynote Talk — Dr. Vanessa Sanchez</strong></div>
-        <div class="schedule-time">9:15 — 9:45 am</div>
-        <div class="schedule-item">From ASCEND Fellowship to Faculty.</div>
-
-        <div class="schedule-item"><strong>Panel — Leadership Pathways & Science Policy</strong></div>
-        <div class="schedule-time">9:45 — 10:30 am</div>
-        <div class="schedule-item">Panel discussion with ASCEND alumni, faculty, and policy advocates.</div>
-
-        <div class="schedule-item"><strong>Morning Break</strong></div>
-        <div class="schedule-time">10:30 — 11:00 am</div>
-        <div class="schedule-item">Informal networking and refreshments.</div>
-
-        <div class="schedule-item"><strong>Guided Writing</strong></div>
-        <div class="schedule-time">11:00 — 12:15 pm</div>
-        <div class="schedule-item">Breakout pods (3–5 people) for policy/impact statements and proposal outlines.</div>
-
-        <div class="schedule-item"><strong>Lunch</strong></div>
-        <div class="schedule-time">12:15 — 1:30 pm</div>
-        <div class="schedule-item">Catered lunch.</div>
-
-        <div class="schedule-item"><strong>Guided Writing / Brainstorming</strong></div>
-        <div class="schedule-time">1:30 — 2:30 pm</div>
-        <div class="schedule-item">Proposal strategy and seed-grant next steps.</div>
-
-        <div class="schedule-item"><strong>Writing Block</strong></div>
-        <div class="schedule-time">2:30 — 3:30 pm</div>
-        <div class="schedule-item">Quiet writing time with templates and prompts.</div>
-
-        <div class="schedule-item"><strong>Break</strong></div>
-        <div class="schedule-time">3:30 — 3:45 pm</div>
-        <div class="schedule-item">Coffee & snacks.</div>
-
-        <div class="schedule-item"><strong>Writing Block & Report Out</strong></div>
-        <div class="schedule-time">3:45 — 4:45 pm</div>
-        <div class="schedule-item">Group summaries, share near-final drafts, agree next steps.</div>
-
-        <div class="schedule-item"><strong>Closing Remarks</strong></div>
-        <div class="schedule-time">4:45 — 5:00 pm</div>
-        <div class="schedule-item">Confirm mailing list, shared drive, and action items.</div>
-
-        <div class="schedule-item"><strong>Dinner</strong></div>
-        <div class="schedule-time">5:30 pm</div>
-        <div class="schedule-item">Informal dinner TBD.</div>
-      </div>
-
-    </section>
-
-    <!--<!-- SPEAKERS -->
-    <!-- <section id="speakers" class="container card">
-      <h2>Speakers & facilitators</h2>
-      <div class="speakers-grid">
-        <div class="speaker">
-          <div class="speaker-name">Dr. Vanessa Sanchez</div>
-          <div class="speaker-bio">ASCEND alumna and keynote speaker. (Keynote: transitioning from fellowship to faculty.)</div>
+          <div class="sponsor-row" style="margin-top:22px">
+            <div class="sponsor-pill muted">Supported by</div>
+            <div class="sponsor-pill"><a href="https://www.hsru.org" target="_blank" rel="noopener">Alliance of Hispanic Serving Research Universities</a></div>
+            <div class="sponsor-pill"><a href="https://www.hluce.org" target="_blank" rel="noopener">Luce Foundation</a></div>
+            <div class="sponsor-pill"><a href="https://mcmsc.asu.edu" target="_blank" rel="noopener">Simon A. Levin MCMSC</a></div>
+          </div>
         </div>
-        <div class="speaker">
-          <div class="speaker-name">Science Policy Panel</div>
-          <div class="speaker-bio">ASCEND alumni, ASU faculty, and science policy advocates — details to be announced.</div>
+
+        <aside class="card" aria-labelledby="quick-info">
+          <div id="quick-info" style="font-weight:700;font-size:1.05rem;margin-bottom:10px">Quick info</div>
+          <div class="muted" style="margin-bottom:10px">Most events in Engineering Center 221A</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <div style="background:rgba(255,255,255,0.02);padding:8px 12px;border-radius:10px;font-weight:700">Jan 30, 2026</div>
+            <div style="background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#051018;padding:8px 12px;border-radius:10px;font-weight:800">Postdocs & Mentors</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="schedule" class="wrap">
+      <h2>Schedule</h2>
+      <div class="schedule" aria-live="polite">
+
+        <!-- Row example: time left, content right -->
+        <div class="schedule-row">
+          <div class="schedule-time">8:30 to 9:00 am</div>
+          <div class="schedule-desc">
+            <strong>Check in and Breakfast</strong>
+            Sign-in, name tags, light breakfast. Coffee available.
+          </div>
         </div>
-      </div> -->
 
-      <!-- <p class="note">We will post full bios and affiliation links soon.</p>
-    </section> -->
+        <div class="schedule-row">
+          <div class="schedule-time">9:00 am</div>
+          <div class="schedule-desc">
+            <strong>Intro / Welcome</strong>
+            Opening remarks and goals for the day.
+          </div>
+        </div>
 
-    <!-- LOGISTICS -->
-    <section id="logistics" class="container card">
-      <h2>Logistics & campus info</h2>
+        <div class="schedule-row">
+          <div class="schedule-time">9:15 to 9:45 am</div>
+          <div class="schedule-desc">
+            <strong>Keynote: Dr. Vanessa Sanchez</strong>
+            From ASCEND Fellowship to Faculty.
+          </div>
+        </div>
 
-      <ul>
-        <li><strong>Venue:</strong> Arizona State University — Tempe campus (Engineering Center A/Wexler 206A).</li>
-        <li><strong>Parking & maps:</strong> ASU parking and campus maps — <a href="https://parking.asu.edu" target="_blank" rel="noopener">ASU Parking</a>, <a href="https://maps.asu.edu" target="_blank" rel="noopener">ASU Campus Maps</a>.</li>
-      </ul>
+        <div class="schedule-row">
+          <div class="schedule-time">9:45 to 10:30 am</div>
+          <div class="schedule-desc">
+            <strong>Panel: Leadership Pathways and Science Policy</strong>
+            Panel discussion with ASCEND alumni, faculty, and policy advocates.
+          </div>
+        </div>
 
-      <h3>Nearby attractions & things to do (optional)</h3>
-      <p>If you are traveling early or staying extra days, here are a few popular places to consider visiting while in Arizona:</p>
-      <ul>
-        <li><a href="https://www.nps.gov/grca/index.htm" target="_blank" rel="noopener">Grand Canyon National Park</a> (day trips available)</li>
-        <li><a href="https://visitsedona.com" target="_blank" rel="noopener">Sedona</a> (scenic drives and hikes)</li>
-        <li><a href="https://phoenixzoo.org" target="_blank" rel="noopener">Phoenix Zoo</a></li>
-        <li><a href="https://www.dbg.org" target="_blank" rel="noopener">Desert Botanical Garden</a></li>
-        <li><a href="https://www.phoenix.gov/administration/departments/parks/activities-facilities/trails/papago-park.html" target="_blank" rel="noopener">Hole in the Rock (Papago Park)</a></li>
-      </ul>
+        <div class="schedule-row">
+          <div class="schedule-time">10:30 to 11:00 am</div>
+          <div class="schedule-desc">
+            <strong>Morning Break</strong>
+            Informal networking and refreshments.
+          </div>
+        </div>
+
+        <div class="schedule-row">
+          <div class="schedule-time">11:00 to 12:15 pm</div>
+          <div class="schedule-desc">
+            <strong>Guided Writing</strong>
+            Breakout pods for policy statements and proposal outlines.
+          </div>
+        </div>
+
+        <div class="schedule-row">
+          <div class="schedule-time">12:15 to 1:30 pm</div>
+          <div class="schedule-desc">
+            <strong>Lunch</strong>
+            Catered lunch.
+          </div>
+        </div>
+
+        <div class="schedule-row">
+          <div class="schedule-time">1:30 to 2:30 pm</div>
+          <div class="schedule-desc">
+            <strong>Guided Writing / Brainstorming</strong>
+            Proposal strategy and seed-grant next steps.
+          </div>
+        </div>
+
+        <div class="schedule-row">
+          <div class="schedule-time">2:30 to 3:30 pm</div>
+          <div class="schedule-desc">
+            <strong>Writing Block</strong>
+            Quiet writing time with templates and prompts.
+          </div>
+        </div>
+
+        <div class="schedule-row">
+          <div class="schedule-time">3:30 to 3:45 pm</div>
+          <div class="schedule-desc">
+            <strong>Break</strong>
+            Coffee and snacks.
+          </div>
+        </div>
+
+        <div class="schedule-row">
+          <div class="schedule-time">3:45 to 4:45 pm</div>
+          <div class="schedule-desc">
+            <strong>Writing Block & Report Out</strong>
+            Group summaries and near-final drafts.
+          </div>
+        </div>
+
+        <div class="schedule-row">
+          <div class="schedule-time">4:45 to 5:00 pm</div>
+          <div class="schedule-desc">
+            <strong>Closing Remarks</strong>
+            Confirm mailing list and action items.
+          </div>
+        </div>
+
+        <div class="schedule-row">
+          <div class="schedule-time">5:30 pm</div>
+          <div class="schedule-desc">
+            <strong>Dinner</strong>
+            Informal dinner, details TBD.
+          </div>
+        </div>
+
+      </div>
     </section>
 
-    <!-- REGISTER -->
-    <section id="register" class="container card">
-      <h2>Register</h2>
-      <p>If you are an ASU local, please register by January 12th so we can confirm headcount for catering and room setup. If you are an ASCEND person who already registered, please disregard :)</p>
+    <section id="logistics" class="wrap">
+      <div class="card">
+        <h2 style="margin-top:0">Logistics & campus info</h2>
+        <ul>
+          <li><strong>Venue:</strong> Arizona State University, Tempe campus — Engineering Center 221A</li>
+          <li><strong>Parking & maps:</strong> <a href="https://parking.asu.edu" target="_blank" rel="noopener">ASU Parking</a>, <a href="https://maps.asu.edu" target="_blank" rel="noopener">ASU Campus Maps</a></li>
+        </ul>
 
-      <p><a class="big-button" href="https://docs.google.com/forms/d/1IFcLC__wZV1C8GVvmIkPsQRPAQ8gCldCKtNUmxVjqgA/edit" target="_blank" rel="noopener">Register (Google Form)</a></p>
-
-      <p class="note">If you need accessibility accommodations or have dietary restrictions, indicate that on the form or email the organizers directly.</p>
+        <h3 style="margin-top:20px">Nearby (optional)</h3>
+        <p class="muted">If you are traveling early, consider:</p>
+        <ul>
+          <li><a href="https://www.nps.gov/grca/index.htm" target="_blank" rel="noopener">Grand Canyon National Park</a></li>
+          <li><a href="https://visitsedona.com" target="_blank" rel="noopener">Sedona</a></li>
+          <li><a href="https://phoenixzoo.org" target="_blank" rel="noopener">Phoenix Zoo</a></li>
+        </ul>
+      </div>
     </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="container card">
-      <h2>Contact & organizers</h2>
-      <p>Please use this Email for further support/information: jimmie [dot] adriazola [at] asu [dot] edu</a></p>
-      <p>Organizing support is provided by the Simon A. Levin MCMSC within SoMSS at ASU.</p>
+    <section id="register" class="wrap">
+      <div class="card">
+        <h2 style="margin-top:0">Register</h2>
+        <p class="muted">Please register by January 12 if local. If you already registered, thank you.</p>
+        <p><a class="big-button" href="https://docs.google.com/forms/d/1IFcLC__wZV1C8GVvmIkPsQRPAQ8gCldCKtNUmxVjqgA/edit" target="_blank" rel="noopener">Register (Google Form)</a></p>
+        <p class="muted" style="margin-top:12px">For accessibility or dietary needs, indicate that on the form or email the organizers.</p>
+      </div>
+    </section>
+
+    <section id="contact" class="wrap">
+      <div class="card">
+        <h2 style="margin-top:0">Contact & organizers</h2>
+        <p class="muted">Email: jimmie [dot] adriazola [at] asu [dot] edu</p>
+        <p class="muted">Organizing support by the Simon A. Levin MCMSC within SoMSS at ASU.</p>
+      </div>
     </section>
 
   </main>
 
   <footer class="site-footer">
-    <div class="container">
-      <div> <span id=2026></span> ASU/ASCEND Convening · Hosted at Arizona State University</div>
-      <div class="note">We gratefully acknowledge the Alliance of Hispanic Serving Research Universities and the Luce Foundation for their generous support.</div>
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <div>© <span id="year"></span> ASU/ASCEND Convening · Hosted at Arizona State University</div>
+      <div class="muted">We thank the Alliance of Hispanic Serving Research Universities and the Luce Foundation for support.</div>
     </div>
   </footer>
 
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-  document.querySelectorAll('nav a').forEach(a=>{
-    a.addEventListener('click', ()=> { const cb = document.getElementById('nav-toggle'); if(cb) cb.checked = false; });
-  });
-</script>
+  <script>
+    // set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
 
+    // small mobile nav: open simple overlay with anchor links
+    const menuBtn = document.getElementById('menu-btn');
+    menuBtn && menuBtn.addEventListener('click', ()=>{
+      // create simple modal nav
+      const navModal = document.createElement('div');
+      navModal.style.position = 'fixed';
+      navModal.style.inset = 0;
+      navModal.style.background = 'linear-gradient(180deg, rgba(2,6,23,0.92), rgba(2,6,23,0.96))';
+      navModal.style.zIndex = 120;
+      navModal.style.display = 'flex';
+      navModal.style.flexDirection = 'column';
+      navModal.style.justifyContent = 'center';
+      navModal.style.alignItems = 'center';
+      navModal.style.gap = '18px';
+      navModal.innerHTML = `
+        <a href="#home" style="color:#e9f3ff;font-size:1.4rem;text-decoration:none;font-weight:700">Home</a>
+        <a href="#schedule" style="color:#e9f3ff;font-size:1.4rem;text-decoration:none;font-weight:700">Schedule</a>
+        <a href="#logistics" style="color:#e9f3ff;font-size:1.4rem;text-decoration:none;font-weight:700">Logistics</a>
+        <a href="#register" style="color:#e9f3ff;font-size:1.4rem;text-decoration:none;font-weight:700">Register</a>
+        <a href="#contact" style="color:#e9f3ff;font-size:1.4rem;text-decoration:none;font-weight:700">Contact</a>
+        <button id="close-nav" style="margin-top:18px;padding:10px 18px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.08);color:var(--muted)">Close</button>
+      `;
+      document.body.appendChild(navModal);
+      document.getElementById('close-nav').addEventListener('click', ()=> navModal.remove());
+      // close when clicking any link
+      Array.from(navModal.querySelectorAll('a')).forEach(a=>{
+        a.addEventListener('click', ()=> setTimeout(()=> navModal.remove(), 250));
+      });
+    });
+
+    // smooth scrolling for internal links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const href = a.getAttribute('href');
+        if(href === '#') return;
+        const el = document.querySelector(href);
+        if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+      });
+    });
+  </script>
 </body>
 </html>
+
