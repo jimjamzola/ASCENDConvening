@@ -360,4 +360,113 @@ a.big-button:focus { box-shadow: 0 0 0 4px rgba(255,198,54,0.14); }
 /* 8) Reduce over-large outer paddings that made sections feel disconnected */
 section { padding: 48px 0; }
 
+/* ---------- PATCH: layout + schedule + button fixes ---------- */
+
+/* 1) Ensure container cards are constrained and centered */
+.container.card,
+.section-card,
+.card {
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+/* 2) Schedule: stable two-column layout (content | time)
+   - content is fluid left column
+   - time is fixed narrow right column (so times align nicely at right) */
+.schedule-grid {
+  display: grid;
+  /* content | time-right */
+  grid-template-columns: 1fr 160px;
+  column-gap: 32px;
+  row-gap: 18px;
+  align-items: start;
+  font-size: 0.98rem;
+}
+
+/* time cell styling (right column) */
+.schedule-time {
+  grid-column: 2;                /* place in right column */
+  justify-self: end;            /* keep times at right edge */
+  text-align: right;
+  color: var(--muted);
+  font-weight: 600;
+  white-space: nowrap;          /* prevent wrapping of the time */
+  padding-left: 8px;
+}
+
+/* content cell styling (left column) */
+.schedule-item {
+  grid-column: 1;
+  color: #e6eef5;               /* slightly brighter than pure white so it reads on dark */
+}
+
+/* strong block headings inside schedule items remain bold and separated */
+.schedule-item strong { display:block; margin-bottom:6px; }
+
+/* 3) Button contrast + reuseable CTA tweak
+   Make sure anchor text inside buttons inherits color and isn't underlined/washed out. */
+.big-button,
+.big-button * { /* ensure all descendants inherit */
+  color: #111827 !important;            /* dark text on gold for best contrast */
+  text-decoration: none !important;
+}
+
+/* slightly darker text-shadow to help on very bright gold */
+.big-button {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 12px 26px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1.05rem;
+  background: linear-gradient(90deg, var(--gold), var(--gold-2));
+  color: #111827;
+  box-shadow: 0 14px 36px rgba(18,18,22,0.6), inset 0 -4px 8px rgba(0,0,0,0.06);
+  transition: transform .12s ease, box-shadow .12s ease;
+  line-height:1;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* hover affordance */
+.big-button:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 22px 46px rgba(18,18,22,0.65), inset 0 -4px 8px rgba(0,0,0,0.06);
+}
+
+/* If a link is inside a .card and styled as a button ensure it inherits */
+.card a.big-button, .big-button a {
+  color: inherit;
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* 4) Small accessibility nits for readability */
+.card {
+  /* slightly increased contrast for inner text */
+  color: #e6eef5;
+}
+
+/* 5) Restore schedule-time behavior on small screens (responsive) */
+@media (max-width:900px){
+  .schedule-grid {
+    grid-template-columns: 1fr;  /* stack content/time vertically */
+  }
+  .schedule-time { grid-column: 1; justify-self: start; text-align:left; padding-left:0; margin-top:2px; }
+  .schedule-item { grid-column: 1; }
+}
+
+/* 6) Defensive: ensure no icon/svgs inside the big button are forcing color inversion */
+.big-button svg, .big-button img {
+  filter: none !important;
+  color: inherit !important;
+}
+
+/* ---------- end PATCH ---------- */
+
+
 
