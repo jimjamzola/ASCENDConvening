@@ -8,12 +8,20 @@
   --card-bg:rgba(15,23,42,0.92);
   --card-border:rgba(148,163,184,0.28);
   --radius:14px;
-  --max-width:1120px; /* tuned so title fits on one line at desktop widths */
+  --max-width:1120px;
 }
 
-/* ========== reset / base ========== */
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;padding:0}
+/* ====== reset / base ====== */
+*,
+*::before,
+*::after{
+  box-sizing:border-box;
+}
+html,body{
+  height:100%;
+  margin:0;
+  padding:0;
+}
 body{
   font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   color:#f9fafb;
@@ -23,10 +31,12 @@ body{
   -moz-osx-font-smoothing:grayscale;
 }
 
-/* textured background (fixed) */
+/* textured background */
 body::before{
   content:"";
-  position:fixed;inset:0;z-index:-2;
+  position:fixed;
+  inset:0;
+  z-index:-2;
   background:
     radial-gradient(900px 480px at 8% 8%, rgba(163,37,63,0.16), transparent 50%),
     radial-gradient(900px 480px at 92% 90%, rgba(56,189,248,0.12), transparent 55%),
@@ -35,438 +45,371 @@ body::before{
 }
 body::after{
   content:"";
-  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch' /></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.18'/></svg>");
-  mix-blend-mode:soft-light;opacity:0.6;
+  mix-blend-mode:soft-light;
+  opacity:0.6;
 }
 
-/* ===== layout helpers ===== */
-/* center page content and keep a stable readable measure */
+img{
+  max-width:100%;
+  display:block;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+main{
+  padding-bottom:64px;
+}
+
+section{
+  padding:56px 0;
+}
+
+h1,h2,h3{
+  margin:0 0 16px;
+}
+
+/* ====== layout helper ====== */
 .container{
   max-width:var(--max-width);
+  width:100%;
   margin:0 auto;
   padding:0 24px;
-  width:100%;
-  box-sizing:border-box;
 }
-main{padding-bottom:64px}
-section{padding:64px 0}
-h1,h2,h3{margin:0 0 16px}
-a{color:inherit}
 
-/* ========== header / nav ========== */
+/* ====== header / nav ====== */
 .site-header{
-  position:sticky;top:0;z-index:20;
+  position:sticky;
+  top:0;
+  z-index:20;
   backdrop-filter:blur(10px);
-  background:linear-gradient(180deg,rgba(15,23,42,0.9),rgba(15,23,42,0.7));
+  background:linear-gradient(180deg,rgba(15,23,42,0.96),rgba(15,23,42,0.82));
   border-bottom:1px solid rgba(15,23,42,0.9);
 }
-.header-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
-.brand{font-weight:700;font-size:0.98rem;line-height:1.2;color:#fff}
-.brand-subline{display:block;font-weight:500;font-size:0.87rem;color:var(--muted);margin-top:2px}
-
-.nav{display:flex;gap:18px;align-items:center;font-size:0.95rem;font-weight:600}
-.nav a{ text-decoration:none;color:var(--muted);padding:6px 10px;border-radius:999px;transition:color .15s,background .15s,transform .15s }
-.nav a:hover{color:#fff;background:rgba(15,23,42,0.9);transform:translateY(-1px)}
-.nav .cta{
-  background:linear-gradient(90deg,var(--maroon),var(--maroon-2));
-  color:#fff;padding:7px 14px;border-radius:999px;
-  box-shadow:0 10px 30px rgba(148,27,72,0.45);border:1px solid rgba(15,23,42,0.9)
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 0;
+}
+.brand{
+  font-weight:700;
+  font-size:0.98rem;
+  line-height:1.2;
+}
+.brand-subline{
+  display:block;
+  font-weight:500;
+  font-size:0.87rem;
+  color:var(--muted);
+  margin-top:2px;
 }
 
-/* mobile nav toggle (kept minimal for existing markup) */
-#nav-toggle,.nav-toggle-label{display:none}
+.nav{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  font-size:0.95rem;
+  font-weight:600;
+}
+.nav a{
+  padding:6px 10px;
+  border-radius:999px;
+  color:var(--muted);
+  transition:color .15s ease, background .15s ease, transform .15s ease;
+}
+.nav a:hover{
+  color:#fff;
+  background:rgba(15,23,42,0.9);
+  transform:translateY(-1px);
+}
+.nav .cta{
+  background:linear-gradient(90deg,var(--maroon),var(--maroon-2));
+  color:#fff;
+  padding:7px 14px;
+  border-radius:999px;
+  box-shadow:0 10px 30px rgba(148,27,72,0.45);
+  border:1px solid rgba(15,23,42,0.9);
+}
 
-/* ========== hero ========== */
-.hero{padding-top:72px}
+/* mobile nav toggle */
+#nav-toggle{
+  display:none;
+}
+.nav-toggle-label{
+  display:none;
+}
+
+/* ====== hero ====== */
+.hero{
+  padding:80px 24px 40px;
+}
 .hero h1{
-  font-weight:800;letter-spacing:-0.03em;
-  font-size:clamp(2.2rem,3.2vw,3.0rem); /* tuned for one-line on wide screens */
-  line-height:1.02;margin-bottom:18px;max-width:100%;
+  font-weight:800;
+  letter-spacing:-0.03em;
+  font-size:clamp(2.2rem,3.2vw,3.0rem);
+  line-height:1.02;
+  margin-bottom:18px;
+  max-width:34ch;
   position:relative;
 }
 .hero h1::before{
-  content:"";position:absolute;inset:45% -10% -40%;z-index:-1;
+  content:"";
+  position:absolute;
+  inset:45% -10% -40%;
+  z-index:-1;
   background:
     radial-gradient(circle at 20% 0%, rgba(248,250,252,0.12), transparent 60%),
     radial-gradient(circle at 75% 120%, rgba(248,250,252,0.12), transparent 60%);
-  filter:blur(28px);opacity:0.65;
+  filter:blur(28px);
+  opacity:0.65;
 }
-/* make lead text constrained + centered within max measure for readability */
 .hero .lead{
-  font-size:1.02rem;color:var(--muted);max-width:70ch;margin:0 auto;
+  font-size:1.02rem;
+  color:var(--muted);
+  max-width:70ch;
 }
 
-/* ========== generic card ========== */
-/* center cards, keep fixed max width so internal layout is stable */
+/* ====== cards / buttons ====== */
 .card{
-  margin:24px auto;
+  margin-top:24px;
   padding:24px 24px 22px;
   border-radius:var(--radius);
   background:var(--card-bg);
   border:1px solid var(--card-border);
   box-shadow:0 14px 40px rgba(15,23,42,0.8);
-  width:100%;
-  max-width:var(--max-width);
 }
 
-/* ensure sections that use an inner .card keep spacing */
-.section-card{
-  margin-top:24px;padding:32px;border-radius:var(--radius);
+.note{
+  font-size:0.98rem;
+  color:var(--muted);
 }
 
-/* little helper: note text */
-.note{font-size:0.98rem;color:var(--muted)}
+/* hero CTA card: keep it tight, aligned with text on desktop */
+.hero-cta{
+  max-width:520px;
+  margin-top:28px;
+  margin-left:0;
+  margin-right:auto;
+}
 
-/* big CTA button: fixed contrast, readable, accessible size */
 .big-button{
   display:inline-flex;
   align-items:center;
   justify-content:center;
   margin-top:14px;
-  padding:12px 28px;
-  min-width:140px;
+  padding:12px 26px;
   border-radius:999px;
-  text-decoration:none;
-  font-weight:700;
-  font-size:0.98rem;
-  background:linear-gradient(90deg,var(--gold),var(--gold-2));
-  color:#111827; /* dark text for best contrast on gold */
-  box-shadow:0 12px 34px rgba(15,23,42,0.9);
-  position:relative;
-  z-index:3; /* sit above card decorations */
+  min-width:140px;
+  font-weight:800;
+  font-size:1rem;
   line-height:1;
-  text-shadow:none; /* ensure crisp text */
-  border:1px solid rgba(0,0,0,0.06);
+  background:linear-gradient(90deg,var(--gold),var(--gold-2));
+  color:#111827;
+  border:1px solid rgba(0,0,0,0.08);
+  box-shadow:0 14px 36px rgba(18,18,22,0.6), inset 0 -4px 8px rgba(0,0,0,0.06);
+  text-decoration:none;
+  cursor:pointer;
+  transition:transform .12s ease, box-shadow .12s ease;
 }
-.big-button:focus{outline:2px solid rgba(255,198,39,0.3);outline-offset:3px}
-.big-button:hover{transform:translateY(-1px);box-shadow:0 18px 46px rgba(15,23,42,0.95)}
+.big-button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 22px 46px rgba(18,18,22,0.7), inset 0 -4px 8px rgba(0,0,0,0.06);
+}
+.big-button:focus{
+  outline:2px solid rgba(255,198,39,0.3);
+  outline-offset:3px;
+}
 
-/* small variant used in header/nav to keep consistent */
-.big-button.small{padding:8px 16px;min-width:120px;font-size:0.92rem}
-
-/* ========== sponsors ========== */
-/* keep the sponsor row compact and inline; but allow wrapping */
-.sponsor-row{margin-top:26px;text-align:center}
+/* ====== sponsors ====== */
+.sponsor-row{
+  margin-top:26px;
+  text-align:center;
+}
 .sponsor{
-  display:inline-block;padding:14px 18px;border-radius:999px;
-  background:rgba(15,23,42,0.92);border:1px solid rgba(148,163,184,0.36);
-  font-size:0.95rem;color:var(--muted);max-width:100%;
+  display:inline-block;
+  padding:14px 18px;
+  border-radius:999px;
+  background:rgba(15,23,42,0.92);
+  border:1px solid rgba(148,163,184,0.36);
+  font-size:0.95rem;
+  color:var(--muted);
 }
 .sponsor a{
-  color:var(--gold);text-decoration:underline;text-underline-offset:4px;
-  font-weight:700;white-space:normal; /* allow wrapping to avoid blowouts */
+  color:var(--gold);
+  text-decoration:underline;
+  text-underline-offset:4px;
+  font-weight:700;
 }
-.sponsor a:hover{color:#facc15}
-
-/* ========== schedule block ========== */
-/* Use centered card with a stable two-column grid (time | content) */
-.container.card{
-  background:var(--card-bg);border-radius:var(--radius);
-  border:1px solid var(--card-border);box-shadow:0 14px 40px rgba(15,23,42,0.8);
-  padding:32px 24px 28px;margin:24px auto 32px;
-  max-width:var(--max-width);
+.sponsor a:hover{
+  color:#facc15;
 }
-.container.card h2{margin-top:0;margin-bottom:18px;font-size:1.35rem}
 
-/* stable schedule grid: fixed narrow time column + fluid content column */
+/* ====== schedule ====== */
+#schedule .card{
+  margin-top:32px;
+}
+.schedule-title{
+  font-size:1.35rem;
+  margin-bottom:18px;
+}
 .schedule-grid{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.schedule-row{
   display:grid;
-  grid-template-columns:140px 1fr; /* wider time column for readability */
+  grid-template-columns:150px minmax(0,1fr);
   column-gap:28px;
-  row-gap:14px;
-  align-items:start;
-  font-size:0.96rem;
-  max-width:100%;
+  padding:10px 0;
+  border-top:1px solid rgba(148,163,184,0.28);
+}
+.schedule-row:first-child{
+  border-top:none;
 }
 .schedule-time{
-  font-weight:600;text-align:right;padding-right:6px;color:var(--muted);white-space:nowrap;
+  font-weight:600;
+  font-size:0.95rem;
+  color:var(--muted);
+  text-align:right;
+  white-space:nowrap;
 }
-.schedule-item strong{display:block;margin-bottom:4px}
-.schedule-item{color:#e5e7eb}
+.schedule-main{
+  color:#e5e7eb;
+  font-size:0.96rem;
+}
+.schedule-main strong{
+  display:block;
+  margin-bottom:4px;
+  color:#f9fafb;
+}
 
-/* ========== other sections spacing fixes ========== */
+/* ====== content sections ====== */
 #logistics .card,
 #register .card,
 #contact .card{
   margin-top:24px;
 }
 
-/* headings inside those sections */
-#logistics h2,#register h2,#contact h2{margin-top:0;margin-bottom:12px;font-size:1.3rem}
-
-/* lists */
-ul{padding-left:20px;margin:8px 0 0}
-li{margin-bottom:6px}
-
-/* links inside content */
-#logistics a,#register a,#contact a{
-  color:var(--gold);text-decoration:underline;text-underline-offset:3px;font-weight:600;
-}
-#logistics a:hover,#register a:hover,#contact a:hover{color:#facc15}
-
-/* ========== footer ========== */
-.site-footer{
-  padding:32px 0 40px;border-top:1px solid rgba(15,23,42,0.9);
-  background:rgba(15,23,42,0.96);font-size:0.9rem;color:var(--muted)
-}
-.site-footer .container{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
-
-/* ========== responsive tweaks ========== */
-@media (max-width:900px){
-  .container{padding:0 18px}
-  .schedule-grid{grid-template-columns:120px 1fr}
-}
-@media (max-width:700px){
-  .header-inner{align-items:flex-start;gap:10px}
-  .nav{display:none;flex-direction:column;align-items:flex-start;margin-top:8px}
-  #nav-toggle:checked ~ .nav{display:flex}
-  .nav-toggle-label{display:inline-flex;flex-direction:column;justify-content:center;gap:3px;width:32px;height:28px;border-radius:999px;border:1px solid rgba(148,163,184,0.5);padding:4px 8px;cursor:pointer}
-  .nav-toggle-label span{display:block;height:2px;background:#e5e7eb;border-radius:999px}
-  .hero h1{font-size:2rem}
-  .container.card{padding:24px 16px 20px}
-  .schedule-grid{grid-template-columns:1fr;row-gap:12px}
-  .schedule-time{text-align:left;padding-right:0}
-  .sponsor{border-radius:12px;display:block}
-  .big-button{min-width:120px;padding:10px 18px}
-}
-@media (max-width:480px){
-  .hero{padding-top:56px}
-  .hero h1{font-size:1.8rem}
+#logistics h2,
+#register h2,
+#contact h2{
+  margin-bottom:12px;
+  font-size:1.3rem;
 }
 
-/* ===================== Fixes / layout polish ===================== */
-
-/* 1) Prevent section link rules from stealing CTA color.
-   Keep colored links in section text, but exclude .big-button anchors. */
-#logistics a:not(.big-button),
-#register a:not(.big-button),
-#contact a:not(.big-button) {
-  color: var(--gold);
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  font-weight: 600;
+ul{
+  padding-left:20px;
+  margin:8px 0 0;
 }
-
-/* 2) Force strong, readable CTA button style (override earlier rules) */
-.big-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 14px;
-  padding: 12px 26px;               /* slightly wider for balance */
-  border-radius: 999px;
-  text-decoration: none;            /* ensure no underline */
-  font-weight: 800;
-  font-size: 1.0rem;
-  line-height: 1;
-  color: #0b1320 !important;        /* dark text for high contrast */
-  background: linear-gradient(90deg, var(--gold) 0%, var(--gold-2) 100%) !important;
-  box-shadow: 0 12px 34px rgba(11,19,32,0.9);
-  border: 1px solid rgba(0,0,0,0.08);
-  text-shadow: 0 1px 0 rgba(255,255,255,0.05);
-  transition: transform .12s ease, box-shadow .12s ease;
-}
-.big-button:hover,
-.big-button:focus {
-  transform: translateY(-3px);
-  box-shadow: 0 20px 46px rgba(11,19,32,0.95);
-  outline: none;
-}
-
-/* If the CTA contains an inner <span> or icon, inherit color */
-.big-button * { color: inherit !important; }
-
-/* 3) Make the register card and hero lead centered and constrained */
-#register .card,
-#logistics .card,
-#contact .card,
-.container.card {
-  max-width: var(--max-width);
-  margin-left: auto;
-  margin-right: auto;
-  padding: 32px;
-  border-radius: var(--radius);
-}
-
-/* center the "consider joining us" phrasing visually with the CTA */
-#register .card .note,
-#register .card p,
-#register .card .lead {
-  max-width: 68ch;
-  margin: 0 0 18px 0;
-}
-
-/* ensure CTA sits visually left-aligned under the text on wide screens but centers on narrow */
-#register .card .cta-row {
-  display:flex;
-  align-items:center;
-  gap:18px;
-}
-@media (max-width:900px){
-  #register .card .cta-row { justify-content:center; }
-}
-
-/* 4) Schedule grid: keep stable two-column layout and center heading */
-.container.card h2 {
-  text-align: left;
-  margin-bottom: 18px;
-}
-
-/* stable schedule grid (time column right-aligned, content left) */
-.schedule-grid {
-  display:grid;
-  grid-template-columns: 120px 1fr;
-  column-gap: 36px;
-  row-gap: 18px;
-  align-items:start;
-}
-
-/* time column style: keep it right-aligned but reduce visual noise */
-.schedule-time {
-  font-weight:700;
-  text-align:right;
-  padding-right:10px;
-  color: var(--muted);
-  white-space:nowrap;
-}
-
-/* content column: stronger heading weight and tighter spacing */
-.schedule-item strong {
-  display:block;
+li{
   margin-bottom:6px;
-  font-weight:800;
-  color: #f8fafc;
 }
-.schedule-item { color: #e6eef6; line-height:1.5; }
 
-/* 5) Small accessibility / contrast helpers */
-.card { background: rgba(8,12,22,0.86); border: 1px solid rgba(148,163,184,0.12); }
-a.big-button:focus { box-shadow: 0 0 0 4px rgba(255,198,54,0.14); }
-
-/* 6) If any section-wide anchor rules still color CTAs, be bulletproof:
-   this is intentionally specific and last-resort. */
-#register a.big-button,
+#logistics a,
+#register a,
+#contact a{
+  color:var(--gold);
+  text-decoration:underline;
+  text-underline-offset:3px;
+  font-weight:600;
+}
 #logistics a.big-button,
-#contact a.big-button {
-  color: inherit !important;
-  background: linear-gradient(90deg, var(--gold), var(--gold-2)) !important;
-  text-decoration: none !important;
+#register a.big-button,
+#contact a.big-button{
+  text-decoration:none;
+  color:#111827;
 }
 
-/* 7) Minor nicety: center hero lead on wide screens for balance */
-.hero .lead { margin-left: 0; margin-right: 0; max-width: 72ch; }
-
-/* 8) Reduce over-large outer paddings that made sections feel disconnected */
-section { padding: 48px 0; }
-
-/* ---------- PATCH: layout + schedule + button fixes ---------- */
-
-/* 1) Ensure container cards are constrained and centered */
-.container.card,
-.section-card,
-.card {
-  max-width: var(--max-width);
-  margin-left: auto;
-  margin-right: auto;
-  box-sizing: border-box;
+/* ====== footer ====== */
+.site-footer{
+  padding:32px 0 40px;
+  border-top:1px solid rgba(15,23,42,0.9);
+  background:rgba(15,23,42,0.96);
+  font-size:0.9rem;
+  color:var(--muted);
 }
-
-/* 2) Schedule: stable two-column layout (content | time)
-   - content is fluid left column
-   - time is fixed narrow right column (so times align nicely at right) */
-.schedule-grid {
-  display: grid;
-  /* content | time-right */
-  grid-template-columns: 1fr 160px;
-  column-gap: 32px;
-  row-gap: 18px;
-  align-items: start;
-  font-size: 0.98rem;
-}
-
-/* time cell styling (right column) */
-.schedule-time {
-  grid-column: 2;                /* place in right column */
-  justify-self: end;            /* keep times at right edge */
-  text-align: right;
-  color: var(--muted);
-  font-weight: 600;
-  white-space: nowrap;          /* prevent wrapping of the time */
-  padding-left: 8px;
-}
-
-/* content cell styling (left column) */
-.schedule-item {
-  grid-column: 1;
-  color: #e6eef5;               /* slightly brighter than pure white so it reads on dark */
-}
-
-/* strong block headings inside schedule items remain bold and separated */
-.schedule-item strong { display:block; margin-bottom:6px; }
-
-/* 3) Button contrast + reuseable CTA tweak
-   Make sure anchor text inside buttons inherits color and isn't underlined/washed out. */
-.big-button,
-.big-button * { /* ensure all descendants inherit */
-  color: #111827 !important;            /* dark text on gold for best contrast */
-  text-decoration: none !important;
-}
-
-/* slightly darker text-shadow to help on very bright gold */
-.big-button {
-  display: inline-block;
-  margin-top: 14px;
-  padding: 12px 26px;
-  border-radius: 999px;
-  text-decoration: none;
-  font-weight: 800;
-  font-size: 1.05rem;
-  background: linear-gradient(90deg, var(--gold), var(--gold-2));
-  color: #111827;
-  box-shadow: 0 14px 36px rgba(18,18,22,0.6), inset 0 -4px 8px rgba(0,0,0,0.06);
-  transition: transform .12s ease, box-shadow .12s ease;
-  line-height:1;
-  display:inline-flex;
+.site-footer .container{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
   align-items:center;
-  justify-content:center;
 }
 
-/* hover affordance */
-.big-button:hover{
-  transform: translateY(-2px);
-  box-shadow: 0 22px 46px rgba(18,18,22,0.65), inset 0 -4px 8px rgba(0,0,0,0.06);
-}
-
-/* If a link is inside a .card and styled as a button ensure it inherits */
-.card a.big-button, .big-button a {
-  color: inherit;
-  text-decoration: none;
-  display: inline-block;
-}
-
-/* 4) Small accessibility nits for readability */
-.card {
-  /* slightly increased contrast for inner text */
-  color: #e6eef5;
-}
-
-/* 5) Restore schedule-time behavior on small screens (responsive) */
+/* ====== responsive tweaks ====== */
 @media (max-width:900px){
-  .schedule-grid {
-    grid-template-columns: 1fr;  /* stack content/time vertically */
+  .container{
+    padding:0 18px;
   }
-  .schedule-time { grid-column: 1; justify-self: start; text-align:left; padding-left:0; margin-top:2px; }
-  .schedule-item { grid-column: 1; }
+  .schedule-row{
+    grid-template-columns:130px minmax(0,1fr);
+  }
 }
 
-/* 6) Defensive: ensure no icon/svgs inside the big button are forcing color inversion */
-.big-button svg, .big-button img {
-  filter: none !important;
-  color: inherit !important;
+@media (max-width:700px){
+  .header-inner{
+    align-items:flex-start;
+    gap:10px;
+  }
+  .nav{
+    display:none;
+    flex-direction:column;
+    align-items:flex-start;
+    margin-top:8px;
+  }
+  #nav-toggle:checked ~ .nav{
+    display:flex;
+  }
+  .nav-toggle-label{
+    display:inline-flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:3px;
+    width:32px;
+    height:28px;
+    border-radius:999px;
+    border:1px solid rgba(148,163,184,0.5);
+    padding:4px 8px;
+    cursor:pointer;
+  }
+  .nav-toggle-label span{
+    display:block;
+    height:2px;
+    background:#e5e7eb;
+    border-radius:999px;
+  }
+
+  .hero{
+    padding-top:64px;
+  }
+  .hero-cta{
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  .schedule-row{
+    grid-template-columns:1fr;
+    row-gap:4px;
+  }
+  .schedule-time{
+    text-align:left;
+  }
 }
 
-/* ---------- end PATCH ---------- */
+@media (max-width:480px){
+  .hero h1{
+    font-size:1.9rem;
+  }
+}
 
 
 
